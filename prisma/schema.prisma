@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Book {
+  id          String   @id @default(cuid())
+  title       String
+  author      String
+  description String   @db.Text
+  rentalPrice Float?
+  salePrice   Float?
+  isForRent   Boolean @default(true)
+  isForSale   Boolean @default(true)
+  isBestseller Boolean @default(false)
+  isNew       Boolean @default(false)
+  imageUrl    String?
+  category    String
+  isbn        String?  @unique
+  publisher   String?
+  publishedYear Int?
+  language    String   @default("Français")
+  pages       Int?
+  stock       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([author])
+}
