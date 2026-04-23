@@ -6,20 +6,20 @@ export async function GET() {
     const books = await prisma.book.findMany()
 
     const totalBooks = books.length
-    const totalValue = books.reduce((sum, book) => {
+    const totalValue = books.reduce((sum: number, book) => {
       const price = book.salePrice || book.rentalPrice || 0
       return sum + (price * book.stock)
     }, 0)
-    
+
     const lowStock = books.filter(book => book.stock > 0 && book.stock <= 5).length
     const outOfStock = books.filter(book => book.stock === 0).length
-    
+
     const booksWithPrice = books.filter(book => book.salePrice || book.rentalPrice)
     const averagePrice = booksWithPrice.length > 0
-      ? booksWithPrice.reduce((sum, book) => sum + (book.salePrice || book.rentalPrice || 0), 0) / booksWithPrice.length
+      ? booksWithPrice.reduce((sum: number, book) => sum + (book.salePrice || book.rentalPrice || 0), 0) / booksWithPrice.length
       : 0
 
-    const mostExpensive = books.reduce((max, book) => {
+    const mostExpensive = books.reduce((max: typeof books[0] | null, book) => {
       const price = book.salePrice || book.rentalPrice || 0
       const maxPrice = max ? (max.salePrice || max.rentalPrice || 0) : 0
       return price > maxPrice ? book : max
