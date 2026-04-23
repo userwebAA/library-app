@@ -11,10 +11,10 @@ export async function GET() {
       return sum + (price * book.stock)
     }, 0)
 
-    const lowStock = books.filter(book => book.stock > 0 && book.stock <= 5).length
-    const outOfStock = books.filter(book => book.stock === 0).length
+    const lowStock = books.filter((book: any) => book.stock > 0 && book.stock <= 5).length
+    const outOfStock = books.filter((book: any) => book.stock === 0).length
 
-    const booksWithPrice = books.filter(book => book.salePrice || book.rentalPrice)
+    const booksWithPrice = books.filter((book: any) => book.salePrice || book.rentalPrice)
     const averagePrice = booksWithPrice.length > 0
       ? booksWithPrice.reduce((sum: number, book: any) => sum + (book.salePrice || book.rentalPrice || 0), 0) / booksWithPrice.length
       : 0
